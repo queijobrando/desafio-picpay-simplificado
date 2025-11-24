@@ -1,0 +1,57 @@
+spring:
+  application:
+    name: picpay-simplificado
+server:
+  port: 8080
+notificacao:
+  service:
+    url: https://util.devi.tools/api/v1/notify
+autorizador:
+  service:
+    url: https://mock-api.net/api/servicoAutorizador/authorize
+
+# perfil dev - PostgreSQL
+---
+spring:
+  config:
+    activate:
+      on-profile: dev
+  cloud:
+    inetutils:
+      preferred-networks:
+        - 127.0.0.1
+  datasource:
+    url: jdbc:h2:mem:picpaysimplificado
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+  jpa:
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+    hibernate:
+      ddl-auto: update
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+
+# perfil prod - PostgreSQL
+---
+spring:
+  config:
+    activate:
+      on-profile: prod
+  datasource:
+    url: jdbc:postgresql://localhost:5432/dcentraldecustosdb
+    driver-class-name: org.postgresql.Driver
+    username: prod
+    password: prod
+  jpa:
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+    hibernate:
+      ddl-auto: update
